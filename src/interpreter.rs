@@ -1,5 +1,5 @@
 pub fn run(code: &String) -> Result<(), Box<dyn std::error::Error>> {
-    let mut memory = vec![0; 1024];
+    let mut memory = vec![0; 30000];
     let mut memory_index = 0;
     let mut code_index = 0;
 
