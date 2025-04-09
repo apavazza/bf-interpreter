@@ -1,5 +1,7 @@
+const MEMORY_SIZE: usize = 30000;
+
 pub fn run(code: &String) -> Result<(), Box<dyn std::error::Error>> {
-    let mut memory = vec![0; 30000];
+    let mut memory = vec![0u8; MEMORY_SIZE];
     let mut memory_index = 0;
     let mut code_index = 0;
 
@@ -11,10 +13,10 @@ pub fn run(code: &String) -> Result<(), Box<dyn std::error::Error>> {
         let char = code.chars().nth(code_index).unwrap();
 
         match char {
-            '>' => memory_index = (memory_index + 1) % 256, // Move the index to the right
-            '<' => memory_index = (memory_index + 255) % 256, // Move the index to the left
-            '+' => memory[memory_index] = (memory[memory_index] + 1) % 255, // Increment the byte at the current index
-            '-' => memory[memory_index] = (memory[memory_index] - 1) % 255, // Decrement the byte at the current index
+            '>' => memory_index = (memory_index + 1) % MEMORY_SIZE, // Move the index to the right
+            '<' => memory_index = (memory_index + MEMORY_SIZE - 1) % MEMORY_SIZE, // Move the index to the left
+            '+' => memory[memory_index] = memory[memory_index].wrapping_add(1), // Increment the byte at the current index
+            '-' => memory[memory_index] = memory[memory_index].wrapping_sub(1), // Decrement the byte at the current index
             '.' => print!("{}", memory[memory_index] as char), // Output the byte at the current index as a character
             ',' => {
                 // Input a character and store it in memory at the current index
